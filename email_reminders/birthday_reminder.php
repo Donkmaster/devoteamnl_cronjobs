@@ -16,7 +16,7 @@ $ini = parse_ini_file('passwords.hidden'); // to use: global $ini;
 
 function getAllRecipients() {
         global $ini;
-        // Check DB connection
+        // Check DB connection, with correct string
         $con=mysqli_connect($ini['DB_HOSTNAME'],$ini['DB_USER'],$ini['DB_PASSWORD'],$ini['DB_DATABASE']);
   // Check connection
   if (mysqli_connect_errno()) {
@@ -51,10 +51,10 @@ function getAllRecipients() {
 }
 
 function getBirthdayPeople() {
-  global $HOST, $DB, $DBUSER, $DBPASSWD;
+  global $ini;
   $personlist = "";
   // Check DB connection
-  $con=mysqli_connect($HOST,$DBUSER,$DBPASSWD,$DB);
+  $con=mysqli_connect($ini['DB_HOSTNAME'],$ini['DB_USER'],$ini['DB_PASSWORD'],$ini['DB_DATABASE']);
 // Check connection
 if (mysqli_connect_errno()) {
   echo "Failed to connect to MySQL: " . mysqli_connect_error();
