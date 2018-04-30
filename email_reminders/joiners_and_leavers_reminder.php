@@ -40,7 +40,6 @@ function getJoiners($warning_days) {
 	     // Load results into array so that we can release connection sooner
 	     while($row = mysqli_fetch_array($result)){
 	       $rows[] = $row;
-	       //echo "Found a birthday person: " . $row['fullname'] . "\n";
 	     }
 	     // Cleanup here to release connection as we have results in array
 	     mysqli_free_result($result);

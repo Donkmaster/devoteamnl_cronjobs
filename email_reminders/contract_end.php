@@ -88,7 +88,7 @@ $message = '
   <title>Contract Ending Reminders for coming ' . $WARNING_DAYS . ' days</title>
 </head>
 <body>
-  <p>Here are those people whose <strong>contract</strong> ends in the coming ' . $WARNING_DAYS . ' days:</p>
+  <p style="color: #ff0000;">Here are those people whose <strong>contract</strong> ends in the coming ' . $WARNING_DAYS . ' days:</p>
   <table>' . 
   getContractEnd($WARNING_DAYS) .
   '</table>
@@ -124,11 +124,12 @@ $to = 'roeland.lengers@devoteam.com' .
       ', roel.tijm@devoteam.com' .
       ', jan.faber@devoteam.com' .
       ', marinus.snyman@devoteam.com' .
+      ', maarten.van.der.lee@devoteam.com' .
       ', imka.rolie@devoteam.com' .
       ', bert.schaap@devoteam.com';
-$to = 'roeland.lengers@devoteam.com';
+//$to = 'roeland.lengers@devoteam.com';
 // Subject
-$subject = 'Probation Period and Contract Ending Reminders for coming ' . $WARNING_DAYS . ' days';
+$subject = 'Contract Ending Reminder for coming ' . $WARNING_DAYS . ' days';
 
 // Mail it
 mail($to, $subject, $message, implode("\r\n", $headers));

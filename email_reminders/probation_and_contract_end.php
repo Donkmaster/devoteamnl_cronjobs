@@ -7,7 +7,7 @@
 // 30 22 * * sun (/usr/local/bin/php /home/devoteam/cronjobs/email_reminders/probation_and_contract_end.php)
 
 // Main body.
-$WARNING_DAYS = 90;
+$WARNING_DAYS = 120; // 4 months should be enough
 // Parse and set constants
 $ini = parse_ini_file('passwords.hidden'); // to use: global $ini;
 
