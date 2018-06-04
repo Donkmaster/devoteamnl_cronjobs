@@ -7,7 +7,7 @@
 // 30 22 * * sun (/usr/local/bin/php /home/devoteam/cronjobs/email_reminders/contract_end.php)
 
 // Main body.
-$WARNING_DAYS = 90;
+$WARNING_DAYS = 180;
 // Parse and set constants
 $ini = parse_ini_file('passwords.hidden'); // to use: global $ini;
 
@@ -108,25 +108,8 @@ $headers[] = 'From: PTT Contract Ending Reminder Service <pttreminders@example.c
 $headers[] = 'Content-Type: text/html; charset="UTF-8"';
 // Multiple recipients
 $to = 'roeland.lengers@devoteam.com' .
-      ', kitty.egelman@devoteam.com' .
-      ', lara.meijer@devoteam.com' .
-      ', arjan.van.grol@devoteam.com' .
-      ', bryan.van.harten@devoteam.com' .
       ', silvia.smal@devoteam.com' .
       ', stans.schumacher@devoteam.com' .
-      ', marielle.callaars@devoteam.com' .
-      ', marc.bovy@devoteam.com' .
-      ', marc.kikkert@devoteam.com' .
-      ', hans.mollevanger@devoteam.com' .
-      ', ratko.popovski@devoteam.com' .
-      ', chris.hau@devoteam.com' .
-      ', hamdija.haracic@devoteam.com' .
-      ', roel.tijm@devoteam.com' .
-      ', jan.faber@devoteam.com' .
-      ', marinus.snyman@devoteam.com' .
-      ', maarten.van.der.lee@devoteam.com' .
-      ', nenad.stefanovic@devoteam.com' .
-      ', vladimir.francuz@devoteam.com' .
       ', imka.rolie@devoteam.com' .
       ', bert.schaap@devoteam.com';
 //$to = 'roeland.lengers@devoteam.com';

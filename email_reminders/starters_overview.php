@@ -185,6 +185,8 @@ $to = "roeland.lengers@devoteam.com" .
       ", marco.croese@devoteam.com" .
       ", antoin.van.der.ben@devoteam.com" .
       ", sjoerd.veen@devoteam.com" .
+      ", nenad.stefanovic@devoteam.com" .
+      ", vladimir.francuz@devoteam.com" .
       ", stans.schumacher@devoteam.com" .
       ", bert.schaap@devoteam.com"; // note the comma
 //$to = 'roeland.lengers@devoteam.com'; // note the comma

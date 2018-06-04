@@ -174,6 +174,7 @@ $to = 'roeland.lengers@devoteam.com' .
       ', bert.schaap@devoteam.com' .
       ', christian.flaig@devoteam.com' .
       ', nenad.stefanovic@devoteam.com' .
+      ', vladimir.francuz@devoteam.com' .
       ', martin.horstink@devoteam.com' .
       ', stevan.ognjenovic@devoteam.com' .
       ', andy.pritchard@devoteam.com' .

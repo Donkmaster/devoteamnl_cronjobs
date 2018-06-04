@@ -129,6 +129,8 @@ $headers[] = 'Content-Type: text/html; charset="UTF-8"';
 // Multiple recipients
 $to = 'roeland.lengers@devoteam.com' .
       ', silvia.smal@devoteam.com' .
+      ', nenad.stefanovic@devoteam.com' .
+      ', vladimir.francuz@devoteam.com' .
       ', imka.rolie@devoteam.com';
 //$to = 'roeland.lengers@devoteam.com';
 // Subject

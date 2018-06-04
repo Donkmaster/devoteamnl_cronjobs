@@ -210,6 +210,8 @@ $to = 'roeland.lengers@devoteam.com' .
       ', jan.faber@devoteam.com' .
       ', marinus.snyman@devoteam.com' .
       ', imka.rolie@devoteam.com' .
+      ', nenad.stefanovic@devoteam.com' .
+      ', vladimir.francuz@devoteam.com' .
       ', bert.schaap@devoteam.com';
 //$to = 'roeland.lengers@devoteam.com';
 // Subject
