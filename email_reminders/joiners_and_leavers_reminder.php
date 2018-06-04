@@ -49,21 +49,23 @@ function getJoiners($warning_days) {
 	     foreach($rows as $row) {
                 $counter++;
 		if ($counter == 1) {
-			$personlist .= "<tr><th>#</th><th align='left'>Name</th><th align='left'>Unit</th><th>Signing Date</th><th>Payroll</th><th>Joining Date</th></tr>";
+			$personlist .= "<tr><th>#</th><th align='left'>Name</th><th align='left'>Unit</th><th>Signing Date</th><th>Signing WEEK</th><th>Payroll</th><th>Joining Date</th></tr>";
 		}
 		$email = $row['email'];
 		$fullname = $row['fullname'];
 		$fullname = str_replace('  ', ' ', $fullname);
 		$signdate = $row['signdate'];
+                $signdatedate = new DateTime($signdate);
+                $week = $signdatedate->format("W");
 		$joindate = $row['joindate'];
 		$payroll = $row['payroll'];
 		$unit = $row['unit'];
 		//echo "Adding person " . $fullname . " to list";
-		$personlist .= "<tr><td align='left'>$counter</td><td align='left'>$fullname</td><td align='left'>$unit</td><td align='right'>$signdate</td><td align='center'>".$payroll."</td><td align='right'>".$joindate."</td></tr>";
+		$personlist .= "<tr><td align='left'>$counter</td><td align='left'>$fullname</td><td align='left'>$unit</td><td align='right'>$signdate</td><td align='center'>$week</td><td align='center'>".$payroll."</td><td align='right'>".$joindate."</td></tr>";
 	     }
 	  } else {
 	    // No users found
-	    $personlist .= "<tr><td colspan='6' align='left'>No signers found in last ".$warning_days." days.</td></tr>";
+	    $personlist .= "<tr><td colspan='7' align='left'>No signers found in last ".$warning_days." days.</td></tr>";
 	    // Cleanup
 	    mysqli_free_result($result);
 	    mysqli_close($con);
@@ -179,7 +181,7 @@ $to = 'roeland.lengers@devoteam.com' .
       ', stevan.ognjenovic@devoteam.com' .
       ', andy.pritchard@devoteam.com' .
       ', steven.paddock@devoteam.com' ;
-//$to = 'roeland.lengers@devoteam.com'; // note the comma
+$to = 'roeland.lengers@devoteam.com'; // note the comma
 // Subject
 $subject = 'Signing and Resigning Reminders for last ' . $WARNING_DAYS . ' days';
 
