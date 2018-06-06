@@ -7,11 +7,13 @@
 // 30 22 * * sun (/usr/local/bin/php /home/devoteam/cronjobs/email_reminders/emailaddress_removal_reminder.php)
 
 // Main body.
-$WARNING_DAYS = 30;
+$WARNING_DAYS_START = 30; // This many days ago left
+$WARNING_DAYS_END = 60; // Up to this many days ago left (so, report on people that left between 30 and 60 days ago).
+
 // Parse and set constants
 $ini = parse_ini_file('passwords.hidden'); // to use: global $ini;
 
-function getLeavers($warning_days) {
+function getLeavers($warning_days_start, $warning_days_end) {
 	$personlist = "";
         global $ini;
         // Check DB connection
@@ -28,13 +30,15 @@ function getLeavers($warning_days) {
 		 "      ,comp.cb_payroll payroll" .
 		 "      ,comp.cb_joindate joindate" .
 		 "      ,comp.cb_practice unit" .
+		 "      ,comp.cb_practice2 subunit" .
 		 "      ,comp.cb_recruiter recruiter" .
 		 "      ,comp.cb_referred_by referer" .
 		 " from dtintra_users users" .
 		 "     ,dtintra_comprofiler comp" .
 		 " where users.id = comp.id" .
 		 "  and users.email like '%@devoteam.com'" .
-		 "  and comp.cb_leave_date = DATE_SUB(CURDATE(),INTERVAL " . ($warning_days) . " DAY)" .
+		 "  and comp.cb_leave_date < date_sub(CURDATE(), INTERVAL $warning_days_start DAY)" .
+                 "  and comp.cb_leave_date > date_sub(CURDATE(), INTERVAL $warning_days_end DAY)" .
                  "  and comp.cb_leave_date != '0000-00-00'" .
                  " order by email;";
 	  // echo "Sql is: " . $sql;
@@ -60,6 +64,7 @@ function getLeavers($warning_days) {
                             "<th>Payroll</th>" .
                             "<th>Join Date</th>" .
                             "<th align='left'>Unit</th>" .
+                            "<th align='left'>Subunit</th>" .
                             "<th>Recruiter</th>" .
                             "<th>Referred By</th>" .
                             "</tr>";
@@ -71,6 +76,7 @@ function getLeavers($warning_days) {
 		$joindate = $row['joindate'];
 		$payroll = $row['payroll'];
 		$unit = $row['unit'];
+		$subunit = $row['subunit'];
 		$recruiter = $row['recruiter'];
 		$referred_by = $row['referer'];
 		//echo "Adding person " . $fullname . " to list";
@@ -86,13 +92,14 @@ function getLeavers($warning_days) {
                     "<td align='center'>".$payroll."</td>" .
                     "<td align='right'>$joindate</td>" .
                     "<td align='left'>$unit</td>" .
+                    "<td align='left'>$subunit</td>" .
                     "<td align='left'>".$recruiter."</td>" .
                     "<td align='left'>".$referred_by."</td>" .
                     "</tr>";
 	     }
 	  } else {
 	    // No users found
-	    $personlist .= "<tr><td colspan='9' align='left'>No people found that left ".$warning_days." days ago.</td></tr>";
+	    $personlist .= "<tr><td colspan='10' align='left'>No people found that left between ".$warning_days_start." and " .$warning_days_end." days ago.</td></tr>";
 	    // Cleanup
 	    mysqli_free_result($result);
 	    mysqli_close($con);
@@ -105,12 +112,12 @@ function getLeavers($warning_days) {
 $message = '
 <html>
 <head>
-  <title>Email account removal Reminders for people that left ' . $WARNING_DAYS . ' days ago.</title>
+  <title>Email account removal Reminders for people that left between ' . $WARNING_DAYS_START . ' and ' . $WARNING_DAYS_END . ' days ago.</title>
 </head>
 <body>
-  <p>Here are the accounts of people left Devoteam ' . $WARNING_DAYS . ' days ago:</p>
+  <p>Here are the accounts of people that left Devoteam between ' . $WARNING_DAYS_START . ' and ' . $WARNING_DAYS_END . ' days ago:</p>
   <table>' . 
-  getLeavers($WARNING_DAYS) .
+  getLeavers($WARNING_DAYS_START, $WARNING_DAYS_END) .
   '</table>
   <p style="color: #ffffff;">Forcing correct display of diacritics: éèü</p>
 </body>
@@ -134,7 +141,7 @@ $to = 'roeland.lengers@devoteam.com' .
       ', imka.rolie@devoteam.com';
 //$to = 'roeland.lengers@devoteam.com';
 // Subject
-$subject = 'Email account removal reminder for people that left ' . $WARNING_DAYS . ' days ago';
+$subject = 'Email account removal reminder for people that left between ' . $WARNING_DAYS_START . ' and ' . $WARNING_DAYS_END . ' days ago';
 
 // Mail it
 mail($to, $subject, $message, implode("\r\n", $headers));
