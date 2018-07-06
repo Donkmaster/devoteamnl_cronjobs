@@ -179,9 +179,20 @@ $to = 'roeland.lengers@devoteam.com' .
       ', vladimir.francuz@devoteam.com' .
       ', martin.horstink@devoteam.com' .
       ', stevan.ognjenovic@devoteam.com' .
+      ', hans.mollevanger@devoteam.com' .
+      ', marc.kikkert@devoteam.com' .
+      ', marc.bovy@devoteam.com' .
+      ', ratko.popovski@devoteam.com' .
+      ', chris.hau@devoteam.com' .
+      ', maarten.van.der.lee@devoteam.com' .
+      ', jan.faber@devoteam.com' .
+      ', marinus.snyman@devoteam.com' .
+      ', arnold.van.wijnbergen@devoteam.com' .
+      ', roel.tijm@devoteam.com' .
+      ', hamdija.haracic@devoteam.com' .
       ', andy.pritchard@devoteam.com' .
       ', steven.paddock@devoteam.com' ;
-$to = 'roeland.lengers@devoteam.com'; // note the comma
+//$to = 'roeland.lengers@devoteam.com'; // note the comma
 // Subject
 $subject = 'Signing and Resigning Reminders for last ' . $WARNING_DAYS . ' days';
 

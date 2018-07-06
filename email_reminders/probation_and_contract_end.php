@@ -208,6 +208,7 @@ $to = 'roeland.lengers@devoteam.com' .
       ', hamdija.haracic@devoteam.com' .
       ', roel.tijm@devoteam.com' .
       ', jan.faber@devoteam.com' .
+      ', arnold.van.wijnbergen@devoteam.com' .
       ', marinus.snyman@devoteam.com' .
       ', imka.rolie@devoteam.com' .
       ', nenad.stefanovic@devoteam.com' .
