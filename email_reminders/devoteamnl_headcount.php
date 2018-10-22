@@ -95,6 +95,7 @@ $headers[] = 'From: PTT Headcount Reminder Service <pttreminders@example.com>';
 //$to = 'noemi.soubeyran@devoteam.com,roeland.lengers@devoteam.com'; // note the comma
 $to = 'stans.schumacher@devoteam.com' .
       ',imka.rolie@devoteam.com' .
+      ',marc.bovy@devoteam.com' .
       ',nenad.stefanovic@devoteam.com' .
       ',vladimir.francuz@devoteam.com' .
       ',roeland.lengers@devoteam.com';
