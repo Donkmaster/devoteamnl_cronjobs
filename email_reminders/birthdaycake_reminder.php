@@ -117,8 +117,8 @@ $headers[] = 'Content-type: text/html; charset=utf-8';
 
 // Additional headers
 $headers[] = 'From: PTT Birthday Cake Reminder Service <pttreminders@example.com>';
-$headers[] = 'Cc: roeland.lengers@devoteam.com,marielle.callaars@devoteam.com';
-$to = 'silvia.smal@devoteam.com,melis.schaap@devoteam.com'; // note the comma
+$headers[] = 'Cc: marielle.callaars@devoteam.com';
+$to = 'nl.ptt@devoteam.com,melis.schaap@devoteam.com'; // note the comma
 //$to = 'roeland.lengers@devoteam.com'; // note the comma
 // Subject
 $subject = 'Upcoming Birthdays for the coming ' . $WARNING_DAYS . ' days';

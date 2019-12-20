@@ -28,6 +28,8 @@ function getProbationEnd($warning_days) {
 		 "      ,comp.cb_payroll payroll" .
 		 "      ,comp.cb_joindate joindate" .
 		 "      ,comp.cb_practice unit" .
+		 "      ,comp.cb_practice2 unit2" .
+		 "      ,comp.cb_manager manager" .
 		 "      ,comp.cb_recruiter recruiter" .
 		 "      ,comp.cb_referred_by referer" .
 		 " from dtintra_users users" .
@@ -55,7 +57,9 @@ function getProbationEnd($warning_days) {
 		if ($counter == 1) {
 			$personlist .= "<tr style='background-color: #DDD;'><th>#</th>" .
                             "<th align='left'>Name</th>" .
+                            "<th align='left'>Practice</th>" .
                             "<th align='left'>Unit</th>" .
+                            "<th align='left'>Manager</th>" .
                             "<th>Join Date</th><th>Payroll</th>" .
                             "<th>Probation End Date</th>" .
                             "<th>Recruiter</th>" .
@@ -69,6 +73,8 @@ function getProbationEnd($warning_days) {
 		$joindate = $row['joindate'];
 		$payroll = $row['payroll'];
 		$unit = $row['unit'];
+		$unit2 = $row['unit2'];
+		$manager = $row['manager'];
 		$recruiter = $row['recruiter'];
 		$referred_by = $row['referer'];
 		//echo "Adding person " . $fullname . " to list";
@@ -80,6 +86,8 @@ function getProbationEnd($warning_days) {
                     "<td align='left'>$counter</td>" .
                     "<td align='left'>$fullname</td>" .
                     "<td align='left'>$unit</td>" .
+                    "<td align='left'>$unit2</td>" .
+                    "<td align='left'>$manager</td>" .
                     "<td align='right'>$joindate</td>" .
                     "<td align='center'>".$payroll."</td>" .
                     "<td align='right'>".$probationenddate."</td>" .
@@ -89,7 +97,7 @@ function getProbationEnd($warning_days) {
 	     }
 	  } else {
 	    // No users found
-	    $personlist .= "<tr><td colspan='6' align='left'>No probation end dates found in coming ".$warning_days." days.</td></tr>";
+	    $personlist .= "<tr><td colspan='8' align='left'>No probation end dates found in coming ".$warning_days." days.</td></tr>";
 	    // Cleanup
 	    mysqli_free_result($result);
 	    mysqli_close($con);
@@ -115,6 +123,8 @@ function getContractEnd($warning_days) {
 		 "      ,comp.cb_payroll payroll" .
 		 "      ,comp.cb_joindate joindate" .
 		 "      ,comp.cb_practice unit" .
+		 "      ,comp.cb_practice2 unit2" .
+		 "      ,comp.cb_manager manager" .
 		 " from dtintra_users users" .
 		 "     ,dtintra_comprofiler comp" .
 		 " where users.id = comp.id" .
@@ -138,7 +148,14 @@ function getContractEnd($warning_days) {
 	     foreach($rows as $row) {
                 $counter++;
 		if ($counter == 1) {
-			$personlist .= "<tr><th align='left'>#</th><th align='left'>Name</th><th align='left'>Unit</th><th align='left'>Join Date</th><th align='left'>Payroll</th><th align='left'>Contract End Date</th></tr>";
+			$personlist .= "<tr><th align='left'>#</th>" .
+				"<th align='left'>Name</th>" .
+				"<th align='left'>Practice</th>" .
+				"<th align='left'>Unit</th>" .
+				"<th align='left'>Manager</th>" .
+				"<th align='left'>Join Date</th>" .
+				"<th align='left'>Payroll</th>" .
+				"<th align='left'>Contract End Date</th></tr>";
 		}
 		$email = $row['email'];
 		$fullname = $row['fullname'];
@@ -147,13 +164,22 @@ function getContractEnd($warning_days) {
 		$joindate = $row['joindate'];
 		$payroll = $row['payroll'];
 		$unit = $row['unit'];
+		$unit2 = $row['unit2'];
+		$manager = $row['manager'];
 		//echo "Adding person " . $fullname . " to list";
-		$personlist .= "<tr><td align='left'>$counter</td><td align='left'>$fullname</td><td align='left'>$unit</td><td align='right'>$joindate</td><td align='center'>".$payroll."</td><td align='right'>$contractenddate</td></tr>";
+		$personlist .= "<tr><td align='left'>$counter</td>" .
+			"<td align='left'>$fullname</td>" .
+			"<td align='left'>$unit</td>" .
+			"<td align='left'>$unit2</td>" .
+			"<td align='left'>$manager</td>" .
+			"<td align='right'>$joindate</td>" .
+			"<td align='center'>".$payroll."</td>" .
+			"<td align='right'>$contractenddate</td></tr>";
 	     }
-             $personlist .= "<tr><td colspan='6'><br/>Please take note of the 'non-competition' clause when renewing/extending someone's contract.</td></tr>";
+             $personlist .= "<tr><td colspan='8'><br/>Please take note of the 'non-competition' clause when renewing/extending someone's contract.</td></tr>";
 	  } else {
 	    // No users found
-	    $personlist .= "<tr><td colspan='6' align='left'>No contract end dates found in coming ".$warning_days." days.</td></tr>";
+	    $personlist .= "<tr><td colspan='8' align='left'>No contract end dates found in coming ".$warning_days." days.</td></tr>";
 	    // Cleanup
 	    mysqli_free_result($result);
 	    mysqli_close($con);
@@ -192,28 +218,14 @@ $headers[] = 'From: PTT Probation Period and Contract Ending Reminder Service <p
 //$headers[] = 'Bcc: roeland.lengers@devoteam.com';
 $headers[] = 'Content-Type: text/html; charset="UTF-8"';
 // Multiple recipients
-$to = 'roeland.lengers@devoteam.com' .
-      ', kitty.egelman@devoteam.com' .
-      ', lara.meijer@devoteam.com' .
-      ', arjan.van.grol@devoteam.com' .
-      ', bryan.van.harten@devoteam.com' .
-      ', silvia.smal@devoteam.com' .
-      ', stans.schumacher@devoteam.com' .
-      ', marielle.callaars@devoteam.com' .
-      ', marc.bovy@devoteam.com' .
-      ', marc.kikkert@devoteam.com' .
-      ', hans.mollevanger@devoteam.com' .
-      ', ratko.popovski@devoteam.com' .
-      ', chris.hau@devoteam.com' .
-      ', hamdija.haracic@devoteam.com' .
-      ', roel.tijm@devoteam.com' .
-      ', jan.faber@devoteam.com' .
-      ', arnold.van.wijnbergen@devoteam.com' .
-      ', marinus.snyman@devoteam.com' .
+$to = 'nl.management_team@devoteam.com' .
       ', imka.rolie@devoteam.com' .
+      ', marc.bovy@devoteam.com' .
+      ', nl.ptt@devoteam.com' .
+      ', nl.delivery@devoteam.com' .
+      ', olivera.raicevic@devoteam.com' .
       ', nenad.stefanovic@devoteam.com' .
-      ', vladimir.francuz@devoteam.com' .
-      ', bert.schaap@devoteam.com';
+      ', vladimir.francuz@devoteam.com';
 //$to = 'roeland.lengers@devoteam.com';
 // Subject
 $subject = 'Probation Period and Contract Ending Reminders for coming ' . $WARNING_DAYS . ' days';

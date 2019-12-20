@@ -33,6 +33,7 @@ function getLeavers($warning_days_start, $warning_days_end) {
 		 "      ,comp.cb_practice2 subunit" .
 		 "      ,comp.cb_recruiter recruiter" .
 		 "      ,comp.cb_referred_by referer" .
+		 "      ,comp.cb_emailaccount_status emailaccountstatus" .
 		 " from dtintra_users users" .
 		 "     ,dtintra_comprofiler comp" .
 		 " where users.id = comp.id" .
@@ -40,6 +41,7 @@ function getLeavers($warning_days_start, $warning_days_end) {
 		 "  and comp.cb_leave_date < date_sub(CURDATE(), INTERVAL $warning_days_start DAY)" .
                  "  and comp.cb_leave_date > date_sub(CURDATE(), INTERVAL $warning_days_end DAY)" .
                  "  and comp.cb_leave_date != '0000-00-00'" .
+                 "  and comp.cb_emailaccount_status != 'Removed'" .
                  " order by email;";
 	  // echo "Sql is: " . $sql;
 	  $result = mysqli_query($con, $sql);
@@ -63,12 +65,15 @@ function getLeavers($warning_days_start, $warning_days_end) {
                             "<th>Leave Date</th>" .
                             "<th>Payroll</th>" .
                             "<th>Join Date</th>" .
+                            "<th align='left'>Practice</th>" .
                             "<th align='left'>Unit</th>" .
-                            "<th align='left'>Subunit</th>" .
                             "<th>Recruiter</th>" .
                             "<th>Referred By</th>" .
+                            "<th>Email account status</th>" .
                             "</tr>";
 		}
+                $userid = $row['id'];
+		$email = $row['email'];
 		$email = $row['email'];
 		$fullname = $row['fullname'];
 		$fullname = str_replace('  ', ' ', $fullname);
@@ -79,6 +84,7 @@ function getLeavers($warning_days_start, $warning_days_end) {
 		$subunit = $row['subunit'];
 		$recruiter = $row['recruiter'];
 		$referred_by = $row['referer'];
+		$emailaccountstatus = $row['emailaccountstatus'];
 		//echo "Adding person " . $fullname . " to list";
                 $backgroundcolor = "#FFF";
                 if ($counter % 2 == 0) {
@@ -86,8 +92,8 @@ function getLeavers($warning_days_start, $warning_days_end) {
                 }
 		$personlist .= "<tr style='background-color: ".$backgroundcolor.";'>" .
                     "<td align='left'>$counter</td>" .
-                    "<td align='left'>$email</td>" .
-                    "<td align='left'>$fullname</td>" .
+                    "<td align='left'><a href='https://team.devoteam.nl/administrator/index.php?option=com_comprofiler&view=edit&cid=".$userid."'>$email</a></td>" .
+                    "<td align='left'><a href='https://team.devoteam.nl/administrator/index.php?option=com_comprofiler&view=edit&cid=".$userid."'>$fullname</a></td>" .
                     "<td align='right'>$leavedate</td>" .
                     "<td align='center'>".$payroll."</td>" .
                     "<td align='right'>$joindate</td>" .
@@ -95,11 +101,12 @@ function getLeavers($warning_days_start, $warning_days_end) {
                     "<td align='left'>$subunit</td>" .
                     "<td align='left'>".$recruiter."</td>" .
                     "<td align='left'>".$referred_by."</td>" .
+                    "<td align='left'>".$emailaccountstatus."</td>" .
                     "</tr>";
 	     }
 	  } else {
 	    // No users found
-	    $personlist .= "<tr><td colspan='10' align='left'>No people found that left between ".$warning_days_start." and " .$warning_days_end." days ago.</td></tr>";
+	    $personlist .= "<tr><td colspan='11' align='left'>No people found that left between ".$warning_days_start." and " .$warning_days_end." days ago.</td></tr>";
 	    // Cleanup
 	    mysqli_free_result($result);
 	    mysqli_close($con);
@@ -115,7 +122,7 @@ $message = '
   <title>Email account removal Reminders for people that left between ' . $WARNING_DAYS_START . ' and ' . $WARNING_DAYS_END . ' days ago.</title>
 </head>
 <body>
-  <p>Here are the accounts of people that left Devoteam between ' . $WARNING_DAYS_START . ' and ' . $WARNING_DAYS_END . ' days ago:</p>
+  <p>Here are the accounts of people that left Devoteam between ' . $WARNING_DAYS_START . ' and ' . $WARNING_DAYS_END . ' days ago (and whos account have not been indiciated as removed):</p>
   <table>' . 
   getLeavers($WARNING_DAYS_START, $WARNING_DAYS_END) .
   '</table>
@@ -134,8 +141,7 @@ $headers[] = 'From: PTT Email account removal Reminder Service <pttreminders@exa
 //$headers[] = 'Bcc: roeland.lengers@devoteam.com';
 $headers[] = 'Content-Type: text/html; charset="UTF-8"';
 // Multiple recipients
-$to = 'roeland.lengers@devoteam.com' .
-      ', silvia.smal@devoteam.com' .
+$to = 'nl.ptt@devoteam.com' .
       ', nenad.stefanovic@devoteam.com' .
       ', vladimir.francuz@devoteam.com' .
       ', imka.rolie@devoteam.com';

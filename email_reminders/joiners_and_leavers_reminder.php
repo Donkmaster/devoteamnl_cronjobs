@@ -28,6 +28,9 @@ function getJoiners($warning_days) {
 		 "      ,comp.cb_payroll payroll" .
 		 "      ,comp.cb_joindate joindate" .
 		 "      ,comp.cb_practice unit" .
+		 "      ,comp.cb_practice2 subunit" .
+		 "      ,comp.cb_originally_futures futures" .
+		 "      ,comp.cb_manager manager" .
 		 " from dtintra_users users" .
 		 "     ,dtintra_comprofiler comp" .
 		 " where users.id = comp.id" .
@@ -49,7 +52,16 @@ function getJoiners($warning_days) {
 	     foreach($rows as $row) {
                 $counter++;
 		if ($counter == 1) {
-			$personlist .= "<tr><th>#</th><th align='left'>Name</th><th align='left'>Unit</th><th>Signing Date</th><th>Signing WEEK</th><th>Payroll</th><th>Joining Date</th></tr>";
+                  $personlist .= "<tr><th>#</th>" .
+                     "<th align='left'>Name</th>" .
+                     "<th align='left'>Practice</th>" .
+                     "<th align='left'>Unit</th>" .
+                     "<th align='center'>Originally<br>Futures</th>" .
+                     "<th>Manager</th>" .
+                     "<th>Signing Date</th>" .
+                     "<th>Signing WEEK</th>" .
+                     "<th>Payroll</th>" .
+                     "<th>Joining Date</th></tr>";
 		}
 		$email = $row['email'];
 		$fullname = $row['fullname'];
@@ -60,12 +72,24 @@ function getJoiners($warning_days) {
 		$joindate = $row['joindate'];
 		$payroll = $row['payroll'];
 		$unit = $row['unit'];
+		$subunit = $row['subunit'];
+		$futures = $row['futures'];
+		$manager = $row['manager'];
 		//echo "Adding person " . $fullname . " to list";
-		$personlist .= "<tr><td align='left'>$counter</td><td align='left'>$fullname</td><td align='left'>$unit</td><td align='right'>$signdate</td><td align='center'>$week</td><td align='center'>".$payroll."</td><td align='right'>".$joindate."</td></tr>";
+		$personlist .= "<tr><td align='left'>$counter</td>" .
+                   "<td align='left'>$fullname</td>" .
+                   "<td align='left'>$unit</td>" .
+                   "<td align='left'>$subunit</td>" .
+                   "<td align='center'>$futures</td>" .
+                   "<td align='left'>$manager</td>" .
+                   "<td align='right'>$signdate</td>" .
+                   "<td align='center'>$week</td>" .
+                   "<td align='center'>".$payroll."</td>" .
+                   "<td align='right'>".$joindate."</td></tr>";
 	     }
 	  } else {
 	    // No users found
-	    $personlist .= "<tr><td colspan='7' align='left'>No signers found in last ".$warning_days." days.</td></tr>";
+	    $personlist .= "<tr><td colspan='10' align='left'>No signers found in last ".$warning_days." days.</td></tr>";
 	    // Cleanup
 	    mysqli_free_result($result);
 	    mysqli_close($con);
@@ -91,6 +115,9 @@ function getLeavers($warning_days) {
 		 "      ,comp.cb_payroll payroll" .
 		 "      ,comp.cb_leave_date leavedate" .
 		 "      ,comp.cb_practice unit" .
+		 "      ,comp.cb_practice2 subunit" .
+		 "      ,comp.cb_originally_futures futures" .
+		 "      ,comp.cb_manager manager" .
 		 " from dtintra_users users" .
 		 "     ,dtintra_comprofiler comp" .
 		 " where users.id = comp.id" .
@@ -113,7 +140,15 @@ function getLeavers($warning_days) {
 	     foreach($rows as $row) {
                 $counter++;
 		if ($counter == 1) {
-			$personlist .= "<tr><th align='left'>#</th><th align='left'>Name</th><th align='left'>Unit</th><th align='left'>Resigning Date</th><th align='left'>Payroll</th><th align='left'>Leaving Date</th></tr>";
+                  $personlist .= "<tr><th align='left'>#</th>" .
+                    "<th align='left'>Name</th>" .
+                    "<th align='left'>Practice</th>" .
+                    "<th align='left'>Unit</th>" .
+                    "<th align='center'>Originally<br>Futures</th>" .
+                    "<th align='left'>Manager</th>" .
+                    "<th align='left'>Resigning Date</th>" .
+                    "<th align='left'>Payroll</th>" .
+                    "<th align='left'>Leaving Date</th></tr>";
 		}
 		$email = $row['email'];
 		$fullname = $row['fullname'];
@@ -122,12 +157,23 @@ function getLeavers($warning_days) {
 		$leavedate = $row['leavedate'];
 		$payroll = $row['payroll'];
 		$unit = $row['unit'];
+		$subunit = $row['subunit'];
+		$futures = $row['futures'];
+		$manager = $row['manager'];
 		//echo "Adding person " . $fullname . " to list";
-		$personlist .= "<tr><td align='left'>$counter</td><td align='left'>$fullname</td><td align='left'>$unit</td><td align='right'>$resigndate</td><td align='center'>".$payroll."</td><td align='right'>$leavedate</td></tr>";
+		$personlist .= "<tr><td align='left'>$counter</td>" .
+                  "<td align='left'>$fullname</td>" .
+                  "<td align='left'>$unit</td>" .
+                  "<td align='left'>$subunit</td>" .
+                  "<td align='center'>$futures</td>" .
+                  "<td align='left'>$manager</td>" .
+                  "<td align='right'>$resigndate</td>" .
+                  "<td align='center'>".$payroll."</td>" .
+                  "<td align='right'>$leavedate</td></tr>";
 	     }
 	  } else {
 	    // No users found
-	    $personlist .= "<tr><td colspan='6' align='left'>No resigners found in last ".$warning_days." days.</td></tr>";
+	    $personlist .= "<tr><td colspan='9' align='left'>No resigners found in last ".$warning_days." days.</td></tr>";
 	    // Cleanup
 	    mysqli_free_result($result);
 	    mysqli_close($con);
@@ -160,30 +206,25 @@ $headers[] = 'MIME-Version: 1.0';
 $headers[] = 'Content-type: text/html; charset=utf-8';
 
 // Additional headers
-$headers[] = 'From: PTT (Re)Signing Reminder Service <pttreminders@example.com>';
+$headers[] = 'From: PTT Joiners and Leavers Reminder Service <pttreminders@example.com>';
 //$headers[] = 'Cc: roeland.lengers@gmail.com';
 //$headers[] = 'Bcc: roeland.lengers@devoteam.com';
 // Multiple recipients
-$to = ' bert.schaap@devoteam.com' .
-      ', stans.schumacher@devoteam.com' .
+$to = ' nl.management_team@devoteam.com' .
       ', imka.rolie@devoteam.com' .
-      ', martin.horstink@devoteam.com' .
       ', marc.bovy@devoteam.com' .
-      ', christian.flaig@devoteam.com' .
+      ', marco.croese@devoteam.com' .
+      ', melis.schaap@devoteam.com' .
+      ', sjoerd.veen@devoteam.com' .
       ', nenad.stefanovic@devoteam.com' .
       ', vladimir.francuz@devoteam.com' .
+      ', olivera.raicevic@devoteam.com' .
       ', stevan.ognjenovic@devoteam.com' .
-      ', maarten.van.der.lee@devoteam.com' .
-      ', jan.faber@devoteam.com' .
-      ', marinus.snyman@devoteam.com' .
-      ', arnold.van.wijnbergen@devoteam.com' .
-      ', roel.tijm@devoteam.com' .
-      ', hamdija.haracic@devoteam.com' .
-      ', nl.sales-delivery@devoteam.com' .
+      ', nl.delivery@devoteam.com' .
       ', nl.ptt@devoteam.com' ;
 //$to = 'roeland.lengers@devoteam.com'; // note the comma
 // Subject
-$subject = 'Signing and Resigning Reminders for last ' . $WARNING_DAYS . ' days';
+$subject = 'Joiners and Leavers Reminder for last ' . $WARNING_DAYS . ' days';
 
 // Mail it
 mail($to, $subject, $message, implode("\r\n", $headers));

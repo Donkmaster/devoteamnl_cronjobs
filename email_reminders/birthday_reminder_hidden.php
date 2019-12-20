@@ -106,8 +106,8 @@ function sendBirthdayMail($birthdayPeople) {
 	   <p>Regards,</p>
 	   <p>Devoteam NL Birthday Reminder Service</p>
 	   <br/>
-           <p style="font-size: 9px;">Stay up-to-date on everything happening at DevoteamNL/CH/UK/SRB. <a href="https://hive.devoteam.com/a/devoteam/intranet/ls/community/devoteam-nl/posts">Visit our Hive community.</a></p>
-           <a href="https://hive.devoteam.com/a/devoteam/intranet/ls/community/devoteam-nl/posts"><img src="https://lh3.googleusercontent.com/BJf1XUJyVGIllIj6V5XATDdhzvQhT2OIfsMMg6kjfbezdZe0Ss28np8lo_ncsnJedzJbIUq30O9aJ_2rdw" width="100"></a>
+           <p style="font-size: 9px;">Stay up-to-date on everything happening at Devoteam NL. <a href="https://devoteam.facebook.com/groups/249413462314147">Visit our Workplace community.</a></p>
+           <a href="https://devoteam.facebook.com/groups/249413462314147"><img src="https://team.devoteam.nl/images/facebook-workplace-logo.png" width="100"></a>
 	   <br/>
            <p style="font-size: 8px;">Do not want to receive these emails?<br/>
            Change your preference on "Edit User Profile" page of <a href="https://team.devoteam.nl/">team.devoteam.nl</a><br/>

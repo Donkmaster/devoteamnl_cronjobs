@@ -34,6 +34,14 @@ function getStarters($warning_days) {
 		 "      ,comp.cb_recruiter recruiter" .
 		 "      ,comp.cb_practice unit" .
 		 "      ,comp.cb_practice2 subunit" .
+		 "      ,comp.cb_phone_wanted cb_phone_wanted" .
+		 "      ,comp.cb_phone_subscription_wanted cb_phone_subscription_wanted" .
+		 "      ,comp.cb_laptop_wanted cb_laptop_wanted" .
+		 "      ,comp.cb_hours_per_week cb_hours_per_week" .
+		 "      ,comp.cb_lease_allowance cb_lease_allowance" .
+		 "      ,comp.cb_originally_futures futures" .
+		 "      ,comp.cb_invited_welcomeday invited_welcomeday" .
+		 "      ,comp.cb_email_requested email_requested" .
 		 " from dtintra_users users" .
 		 "     ,dtintra_comprofiler comp" .
 		 " where users.id = comp.id" .
@@ -56,8 +64,26 @@ function getStarters($warning_days) {
 	     foreach($rows as $row) {
                 $counter++;
 		if ($counter == 1) {
-			$personlist .= "<tr style='background-color: #DDD;'><th>#</th><th align='left'>Name</th><th align='left'>Unit</th><th align='left'>Sub Unit</th><th>Signing Date</th><th align='left'>Recruiter</th><th>Payroll</th><th>Joining Date &uarr;</th><th>Personal Email</th></tr>";
+                  $personlist .= "<tr style='background-color: #DDD;'><th>#</th>".
+                    "<th align='left'>Name</th>".
+                    "<th>Joining Date &uarr;</th>".
+                    "<th>Signing Date</th>".
+                    "<th align='left'>Recruiter</th>".
+                    "<th align='center'>Phone Wanted?</th>".
+                    "<th align='center'>Mob Abo Wanted?</th>".
+                    "<th align='center'>Laptop Wanted?</th>".
+                    "<th align='center'>Hours/Week</th>".
+                    "<th align='center'>LeaseAllowance</th>".
+                    "<th align='left'>Practice</th>".
+                    "<th align='left'>Unit</th>".
+                    "<th align='left'>Futures?</th>".
+                    "<th align='center'>Invited for Welcome Day?</th>".
+                    "<th align='center'>Email Requested?</th>".
+                    "<th>Payroll</th>".
+                    "<th>Personal Email</th>".
+                    "</tr>";
 		}
+		$userid = $row['id'];
 		$email = $row['email'];
 		$email2 = $row['email2'];
 		$fullname = $row['fullname'];
@@ -65,26 +91,47 @@ function getStarters($warning_days) {
 		$signdate = $row['signdate'];
 		$joindate = $row['joindate'];
 		$payroll = $row['payroll'];
+		$futures = $row['futures'];
 		$recruiter = $row['recruiter'];
+                $recruiter = substr($recruiter, 0, strlen($recruiter) - strlen('@devoteam.com'));
 		$unit = $row['unit'];
+		$invited_welcomeday = $row['invited_welcomeday'];
+		$email_requested = $row['email_requested'];
 		$subunit = $row['subunit'];
 		//echo "Adding person " . $fullname . " to list";
                 $backgroundcolor = "#FFF";
                 if ($counter % 2 == 0) {
                     $backgroundcolor = "#DDD";
                 }
-		$personlist .= "<tr style='background-color: ".$backgroundcolor.";'><td align='left'>$counter</td><td align='left'>$fullname</td><td align='left'>$unit</td><td align='left'>$subunit</td><td align='right'>$signdate</td><td align='left'>$recruiter</td><td align='center'>".$payroll."</td><td align='right'>".$joindate."</td><td>".$email2."</td></tr>";
+		$personlist .= "<tr style='background-color: ".$backgroundcolor.";'><td align='left'>$counter</td>".
+                  "<td align='left'><a href='https://team.devoteam.nl/administrator/index.php?option=com_comprofiler&view=edit&cid=".$userid."'>$fullname</a></td>" .
+                  "<td align='right'>".$joindate."</td>".
+                  "<td align='right'>$signdate</td>".
+                  "<td align='left'>$recruiter</td>".
+                  "<td align='center'>".$row['cb_phone_wanted']."</td>".
+                  "<td align='center'>".$row['cb_phone_subscription_wanted']."</td>".
+                  "<td align='center'>".$row['cb_laptop_wanted']."</td>".
+                  "<td align='center'>".$row['cb_hours_per_week']."</td>".
+                  "<td align='center'>".$row['cb_lease_allowance']."</td>".
+                  "<td align='left'>$unit</td>".
+                  "<td align='left'>$subunit</td>".
+                  "<td align='center'>".$futures."</td>".
+                  "<td align='center'>".$invited_welcomeday."</td>".
+                  "<td align='center'>".$email_requested."</td>".
+                  "<td align='center'>".$payroll."</td>".
+                  "<td>".$email2."</td>".
+                  "</tr>";
 	     }
 	  } else {
 	    // No users found
-	    $personlist .= "<tr><td colspan='7' align='left'>No signers found in last ".$warning_days." days.</td></tr>";
+	    $personlist .= "<tr><td colspan='10' align='left'>No signers found in last ".$warning_days." days.</td></tr>";
 	    // Cleanup
 	    mysqli_free_result($result);
 	    mysqli_close($con);
 	  }
 	}
 	return $personlist;
-} // Function getgetStarters(days)
+} // Function getStarters(days)
 
 function getLeavers($warning_days) {
 	$personlist = "";
@@ -146,7 +193,7 @@ function getLeavers($warning_days) {
 	  }
 	}
 	return $personlist;
-} // Function getLeavers(days)
+} // Function getStarters(days)
 
 // Message
 $message = '
@@ -172,9 +219,10 @@ $headers[] = 'From: PTT Colleagues Starting Reminder Service <pttreminders@examp
 //$headers[] = 'Cc: roeland.lengers@gmail.com';
 //$headers[] = 'Bcc: roeland.lengers@devoteam.com';
 // Multiple recipients
-$to = "roeland.lengers@devoteam.com" .
-      ", silvia.smal@devoteam.com" .
-      ", marielle.callaars@devoteam.com";
+$to = "nl.ptt@devoteam.com" .
+      ", nl.recruitment@devoteam.com" .
+      ", wilfred.mollenvanger@devoteam.com" .
+      ", imka.rolie@devoteam.com";
 //$to = 'roeland.lengers@devoteam.com';
 // Subject
 $subject = 'Colleagues Starting Reminder';

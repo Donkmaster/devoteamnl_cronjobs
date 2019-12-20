@@ -107,11 +107,9 @@ $headers[] = 'From: PTT Contract Ending Reminder Service <pttreminders@example.c
 //$headers[] = 'Bcc: roeland.lengers@devoteam.com';
 $headers[] = 'Content-Type: text/html; charset="UTF-8"';
 // Multiple recipients
-$to = 'roeland.lengers@devoteam.com' .
-      ', silvia.smal@devoteam.com' .
-      ', stans.schumacher@devoteam.com' .
+$to = 'nl.ptt@devoteam.com' .
       ', imka.rolie@devoteam.com' .
-      ', bert.schaap@devoteam.com';
+      ', nl.exco@devoteam.com';
 //$to = 'roeland.lengers@devoteam.com';
 // Subject
 $subject = 'Contract Ending Reminder for coming ' . $WARNING_DAYS . ' days';

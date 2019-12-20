@@ -25,7 +25,7 @@ if (mysqli_connect_errno()) {
 
   # For explanation of date wizardy, check out: https://stackoverflow.com/questions/83531/sql-select-upcoming-birthdays
 //  $sql = "SELECT cb_payroll payroll, cb_company company, cb_employeetype employeetype, count(*) total FROM `dtintra_comprofiler` WHERE cb_isactive = 'Yes' and cb_payroll is not null group by 1,2,3 order by 1,2,3;";
-  $sql = "SELECT cb_payroll payroll, cb_employeetype employeetype, count(*) total FROM `dtintra_comprofiler` WHERE cb_isactive = 'Yes' and cb_payroll is not null group by 1,2 order by 1,2;";
+  $sql = "SELECT cb_payroll payroll, cb_employeetype employeetype, count(*) total FROM `dtintra_comprofiler` WHERE cb_isactive = 'Yes' and cb_payroll in ('NL','SRB') group by 1,2 order by 1,2;";
   //echo "Sql is: " . $sql;
   $result = mysqli_query($con, $sql);
 
@@ -93,12 +93,12 @@ $headers[] = 'From: PTT Headcount Reminder Service <pttreminders@example.com>';
 //$headers[] = 'Bcc: roeland.lengers@devoteam.com';
 // Multiple recipients
 //$to = 'noemi.soubeyran@devoteam.com,roeland.lengers@devoteam.com'; // note the comma
-$to = 'stans.schumacher@devoteam.com' .
+$to = 'nl.management_team@devoteam.com' .
       ',imka.rolie@devoteam.com' .
       ',marc.bovy@devoteam.com' .
       ',nenad.stefanovic@devoteam.com' .
       ',vladimir.francuz@devoteam.com' .
-      ',roeland.lengers@devoteam.com';
+      ', olivera.raicevic@devoteam.com';
 //$to = 'roeland.lengers@devoteam.com'; // note the comma
 // Subject
 $subject = 'Headcount reminder for Devoteam NL';

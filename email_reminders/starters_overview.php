@@ -51,7 +51,7 @@ function getStarters($warning_days) {
 	     foreach($rows as $row) {
                 $counter++;
 		if ($counter == 1) {
-			$personlist .= "<tr><th>#</th><th align='left'>Name</th><th align='left'>Unit</th><th align='left'>Sub Unit</th><th>Signing Date</th><th>Payroll</th><th>Joining Date &uarr;</th></tr>";
+			$personlist .= "<tr><th>#</th><th align='left'>Name</th><th align='left'>Practice</th><th align='left'>Unit</th><th>Signing Date</th><th>Payroll</th><th>Joining Date &uarr;</th></tr>";
 		}
 		$email = $row['email'];
 		$fullname = $row['fullname'];
@@ -161,34 +161,17 @@ $headers[] = 'From: PTT Colleagues Starting Reminder Service <pttreminders@examp
 //$headers[] = 'Cc: roeland.lengers@gmail.com';
 //$headers[] = 'Bcc: roeland.lengers@devoteam.com';
 // Multiple recipients
-$to = "roeland.lengers@devoteam.com" .
-      ", kitty.egelman@devoteam.com" .
-      ", lara.meijer@devoteam.com" .
-      ", arjan.van.grol@devoteam.com" .
-      ", bryan.van.harten@devoteam.com" .
-      ", silvia.smal@devoteam.com" .
-      ", marielle.callaars@devoteam.com" .
+$to = "nl.management_team@devoteam.com" .
       ", imka.rolie@devoteam.com" .
-      ", ratko.popovski@devoteam.com" .
-      ", hans.mollevanger@devoteam.com" .
       ", marc.bovy@devoteam.com" .
-      ", marc.kikkert@devoteam.com" .
-      ", chris.hau@devoteam.com" .
-      ", emiel.van.der.linden@devoteam.com" .
-      ", roel.tijm@devoteam.com" .
-      ", marinus.snyman@devoteam.com" .
-      ", hamdija.haracic@devoteam.com" .
-      ", melis.schaap@devoteam.com" .
-      ", hans.beugelink@devoteam.com" .
-      ", rob.van.der.heiden@devoteam.com" .
-      ", anuradha.tikai@devoteam.com" .
       ", marco.croese@devoteam.com" .
-      ", antoin.van.der.ben@devoteam.com" .
+      ", melis.schaap@devoteam.com" .
       ", sjoerd.veen@devoteam.com" .
+      ", nl.delivery@devoteam.com" .
+      ", nl.ptt@devoteam.com" .
+      ', olivera.raicevic@devoteam.com' .
       ", nenad.stefanovic@devoteam.com" .
-      ", vladimir.francuz@devoteam.com" .
-      ", stans.schumacher@devoteam.com" .
-      ", bert.schaap@devoteam.com"; // note the comma
+      ", vladimir.francuz@devoteam.com";
 //$to = 'roeland.lengers@devoteam.com'; // note the comma
 // Subject
 $subject = 'Colleagues Starting Reminder';
